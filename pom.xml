@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.vidal</groupId>
-    <artifactId>vapi-sdk</artifactId>
+    <artifactId>vidal-rest-sdk</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>vapi-sdk</name>
+    <name>vidal-rest-sdk</name>
 
     <properties>
         <java.version>1.7</java.version>
