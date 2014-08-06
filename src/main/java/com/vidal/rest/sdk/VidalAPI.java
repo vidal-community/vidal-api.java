@@ -1,11 +1,25 @@
 package com.vidal.rest.sdk;
 
-import java.net.URI;
+import com.vidal.rest.sdk.converters.AtomConverter;
+import com.vidal.rest.sdk.converters.EntityConverterFactory;
+import retrofit.RestAdapter;
 
-public interface VidalAPI {
-    // encapsulates RestAdapter creation
-    // thin wrapper around setEndpoint call
-    // and XML deserialization configuration
-    Resources at(URI uri);
-    Resources at(String uri);
+public class VidalAPI {
+
+    public static Resources at(String uri) {
+        return new ResourceFactory(
+                new RestAdapter.Builder()
+                        .setEndpoint(uri)
+                        .setConverter(converter())
+                        .build()
+        );
+    }
+
+    private static AtomConverter converter() {
+        return new AtomConverter(entityConverterFactory());
+    }
+
+    private static EntityConverterFactory entityConverterFactory() {
+        return new EntityConverterFactory();
+    }
 }
