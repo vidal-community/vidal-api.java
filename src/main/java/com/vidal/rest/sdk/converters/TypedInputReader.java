@@ -22,8 +22,9 @@ class TypedInputReader {
         StringBuilder builder = new StringBuilder();
         for (String line : readAllLines()) {
             builder.append(line);
+            builder.append(System.lineSeparator());
         }
-        return builder.toString();
+        return builder.substring(0, builder.length() - 1);
     }
 
     private Collection<String> readAllLines() throws IOException {

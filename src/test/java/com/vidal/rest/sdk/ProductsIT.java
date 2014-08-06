@@ -2,14 +2,16 @@ package com.vidal.rest.sdk;
 
 import com.vidal.rest.sdk.entities.Product;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import static com.vidal.rest.sdk.entities.Assertions.assertThat;
 
+@Category(Private.class)
 public class ProductsIT {
 
     @Test
     public void fetches_product_by_id() {
-        Product product = VidalAPI.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api")
+        Product product = VidalApi.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api")
                 .fetching(Products.class)
                 .findOne(4011);
 
