@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,9 +38,6 @@ public class AtomDeserializerFactoryTest {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
-
-    @Spy
-    AtomFeedReader reader;
 
     @InjectMocks
     AtomDeserializerFactory factory;

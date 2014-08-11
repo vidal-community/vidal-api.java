@@ -25,7 +25,6 @@ package com.vidal.rest.sdk;
 
 import com.vidal.rest.sdk.converters.AtomConverter;
 import com.vidal.rest.sdk.converters.AtomDeserializerFactory;
-import com.vidal.rest.sdk.converters.AtomFeedReader;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
@@ -69,8 +68,8 @@ public class VidalApi {
     }
 
     @Provides
-    AtomFeedReader feedReader() {
-        return new AtomFeedReader();
+    AtomDeserializerFactory atomDeserializerFactory() {
+        return new AtomDeserializerFactory();
     }
 
 }

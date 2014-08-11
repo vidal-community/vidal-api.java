@@ -23,21 +23,18 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import com.sun.syndication.io.FeedException;
 import com.vidal.rest.sdk.entities.Product;
+import nu.xom.ParsingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import retrofit.converter.ConversionException;
 
 import static com.vidal.rest.sdk.entities.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.isA;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductDeserializerTest {
@@ -45,19 +42,15 @@ public class ProductDeserializerTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    @Mock
-    AtomFeedReader reader;
-
     @InjectMocks
     ProductDeserializer deserializer;
 
     @Test
-    public void deserializes_product_from_feed() throws ConversionException, FeedException {
-        when(reader.buildFeed(anyString())).thenCallRealMethod();
+    public void deserializes_product_from_feed() throws ConversionException {
         String feed = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\">" +
+                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:vidal=\"http://api.vidal.net/-/spec/vidal-api/1.0/\">" +
                 "   <entry>" +
-                "       <id>vidal://product/42</id>" +
+                "       <vidal:id>42</vidal:id>" +
                 "       <title>Batman</title>" +
                 "   </entry>" +
                 "</feed>";
@@ -65,15 +58,14 @@ public class ProductDeserializerTest {
         Product product = deserializer.deserializeOne(feed);
 
         assertThat(product)
-                .hasId("vidal://product/42")
+                .hasId("42")
                 .hasName("Batman");
     }
 
     @Test
-    public void feed_errors_are_wrapped_as_conversion_exceptions() throws FeedException, ConversionException {
-        when(reader.buildFeed(anyString())).thenThrow(FeedException.class);
+    public void feed_errors_are_wrapped_as_conversion_exceptions() throws ConversionException {
         exception.expect(ConversionException.class);
-        exception.expectCause(isA(FeedException.class));
+        exception.expectCause(isA(ParsingException.class));
 
         deserializer.deserializeOne("");
     }
