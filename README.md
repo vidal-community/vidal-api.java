@@ -1,4 +1,4 @@
-# vidal-rest-sdk
+# vidal-rest-sdk [![Build Status](https://travis-ci.org/softwarevidal/vidal-rest-sdk.png)](https://travis-ci.org/softwarevidal/vidal-rest-sdk)
 
 Thin SDK around Vidal REST APIs.
 Compatible with standard Java & Android apps.
