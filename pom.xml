@@ -265,22 +265,27 @@
                         </goals>
                         <configuration>
                             <includes>
-                                <include>rome:rome</include>
-                                <include>com.squareup.dagger:retrofit</include>
+                                <include>com.squareup.retrofit:retrofit</include>
                                 <include>com.squareup.dagger:dagger</include>
+                                <include>xom:xom</include>
+                                <include>jaxen:jaxen</include>
                             </includes>
                             <rules>
+                                <rule>
+                                    <pattern>retrofit.**</pattern>
+                                    <result>${base.internal.package}.squareup.retrofit.@1</result>
+                                </rule>
                                 <rule>
                                     <pattern>dagger.**</pattern>
                                     <result>${base.internal.package}.squareup.dagger.@1</result>
                                 </rule>
                                 <rule>
-                                    <pattern>com.squareup.retrofit.**</pattern>
-                                    <result>${base.internal.package}.squareup.retrofit.@1</result>
+                                    <pattern>nu.xom.**</pattern>
+                                    <result>${base.internal.package}.nu.xom.@1</result>
                                 </rule>
                                 <rule>
-                                    <pattern>com.sun.syndication.**</pattern>
-                                    <result>${base.internal.package}.rome.@1</result>
+                                    <pattern>org.jaxen.**</pattern>
+                                    <result>${base.internal.package}.org.jaxen.@1</result>
                                 </rule>
                             </rules>
                         </configuration>
