@@ -39,14 +39,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProductDeserializer implements AtomDeserializer<Product> {
+import static java.lang.Integer.parseInt;
+
+public class ProductDeserializer extends StandardAtomDeserializer<Product> {
 
     @Override
     public Product deserializeOne(String contents) throws ConversionException {
         try {
             Document document = document(contents);
             return new Product(
-                execute(document, "//atom:entry/vidal:id"),
+                parseInt(execute(document, "//atom:entry/vidal:id"), 10),
                 execute(document, "//atom:entry/atom:title")
             );
 

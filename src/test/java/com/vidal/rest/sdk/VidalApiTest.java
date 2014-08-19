@@ -74,7 +74,7 @@ public class VidalApiTest {
                 .findOne(42);
 
         assertThat(product)
-                .hasId("4011")
+                .hasId(4011)
                 .hasName("CLAMOXYL 125 mg/5 ml pdre p susp buv");
     }
 

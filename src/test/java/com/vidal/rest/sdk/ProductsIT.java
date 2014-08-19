@@ -27,7 +27,10 @@ import com.vidal.rest.sdk.entities.Product;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.util.Collection;
+
 import static com.vidal.rest.sdk.entities.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(Private.class)
 public class ProductsIT {
@@ -40,7 +43,31 @@ public class ProductsIT {
 
 
         assertThat(product)
-                .hasId("vidal://product/4011")
+                .hasId(4011)
                 .hasName("CLAMOXYL 125 mg/5 ml pdre p susp buv");
     }
+
+    @Test
+    public void searches_product_by_name_without_paging() {
+        Collection<Product> products = VidalApi.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api")
+                .fetching(Products.class)
+                .findByName("clam");
+
+        assertThat(products)
+                .hasSize(11)
+                .extracting("id").containsOnly(
+                "vidal://product/4011",
+                "vidal://product/4002",
+                "vidal://product/4005",
+                "vidal://product/4015",
+                "vidal://product/4007",
+                "vidal://product/4013",
+                "vidal://product/4009",
+                "vidal://product/4014",
+                "vidal://product/4004",
+                "vidal://product/4006",
+                "vidal://product/4008"
+        );
+    }
+
 }

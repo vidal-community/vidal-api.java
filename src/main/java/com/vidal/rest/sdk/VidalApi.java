@@ -25,6 +25,7 @@ package com.vidal.rest.sdk;
 
 import com.vidal.rest.sdk.converters.AtomConverter;
 import com.vidal.rest.sdk.converters.AtomDeserializerFactory;
+import com.vidal.rest.sdk.converters.TargetTypeExtractor;
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
@@ -63,13 +64,18 @@ public class VidalApi {
     }
 
     @Provides
-    Converter converter(AtomDeserializerFactory deserializers) {
-        return new AtomConverter(deserializers);
+    Converter converter(AtomDeserializerFactory deserializers, TargetTypeExtractor typeExtractor) {
+        return new AtomConverter(deserializers, typeExtractor);
     }
 
     @Provides
     AtomDeserializerFactory atomDeserializerFactory() {
         return new AtomDeserializerFactory();
+    }
+
+    @Provides
+    TargetTypeExtractor typeExtractor() {
+        return new TargetTypeExtractor();
     }
 
 }

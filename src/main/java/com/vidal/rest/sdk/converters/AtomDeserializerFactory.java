@@ -29,9 +29,9 @@ import static java.lang.String.format;
 
 public class AtomDeserializerFactory {
 
-    public <T> AtomDeserializer<T> find(Class<T> type) {
+    public <T> StandardAtomDeserializer<T> find(Class<T> type) {
         if (Product.class.isAssignableFrom(type)) {
-            return (AtomDeserializer<T>) new ProductDeserializer();
+            return (StandardAtomDeserializer<T>) new ProductDeserializer();
         }
         throw new IllegalArgumentException(format("%s not supported", type.getName()));
     }

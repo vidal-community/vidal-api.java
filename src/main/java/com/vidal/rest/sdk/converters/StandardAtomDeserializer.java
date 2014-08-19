@@ -21,49 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.vidal.rest.sdk.entities;
+package com.vidal.rest.sdk.converters;
 
-import java.util.Objects;
+import retrofit.converter.ConversionException;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
-import static java.util.Objects.hash;
+import java.lang.reflect.Type;
 
-public class Product {
+public abstract class StandardAtomDeserializer<T> implements AtomDeserializer<T> {
 
-    private int id;
-    private String name;
-
-    public Product(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public Object deserialize(Type type, String contents) throws ConversionException {
+        if (type instanceof ParameterizedTypeImpl) {
+            return deserializeAll(contents);
+        }
+        return deserializeOne(contents);
     }
 }

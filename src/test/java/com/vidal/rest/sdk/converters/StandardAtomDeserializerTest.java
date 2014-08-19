@@ -23,40 +23,42 @@
  */
 package com.vidal.rest.sdk.converters;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import retrofit.converter.ConversionException;
-import retrofit.converter.Converter;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
-import static java.lang.String.format;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
-public class AtomConverter implements Converter {
+@RunWith(MockitoJUnitRunner.class)
+public class StandardAtomDeserializerTest {
 
-    private final AtomDeserializerFactory deserializers;
-    private final TargetTypeExtractor typeExtractor;
+    @Mock
+    StandardAtomDeserializer<?> deserializer;
 
-    public AtomConverter(AtomDeserializerFactory deserializers, TargetTypeExtractor typeExtractor) {
-        this.deserializers = deserializers;
-        this.typeExtractor = typeExtractor;
+    @Before
+    public void prepare() throws ConversionException {
+        when(deserializer.deserialize(any(Type.class), anyString())).thenCallRealMethod();
     }
 
-    @Override
-    public Object fromBody(TypedInput typedInput, Type type) throws ConversionException {
-        try {
-            String contents = new TypedInputReader(typedInput).readContents();
-            return deserializers.find(typeExtractor.extractTargetEntity(type)).deserialize(type, contents);
-        } catch (IOException e) {
-            throw new ConversionException(e.getMessage(), e);
-        }
+    @Test
+    public void deserializes_collections() throws ConversionException {
+        deserializer.deserialize(mock(ParameterizedTypeImpl.class), "payload");
+
+        verify(deserializer).deserializeAll("payload");
     }
 
-    @Override
-    public TypedOutput toBody(Object o) {
-        throw new UnsupportedOperationException();
-    }
+    @Test
+    public void deserializes_single_entity() throws ConversionException {
+        deserializer.deserialize(Object.class, "payload");
 
+        verify(deserializer).deserializeOne("payload");
+    }
 }

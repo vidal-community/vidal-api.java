@@ -23,40 +23,42 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import retrofit.converter.ConversionException;
-import retrofit.converter.Converter;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
+import org.junit.Test;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Collection;
 
-import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class AtomConverter implements Converter {
+public class TargetTypeExtractorTest {
 
-    private final AtomDeserializerFactory deserializers;
-    private final TargetTypeExtractor typeExtractor;
+    private TargetTypeExtractor targetTypeExtractor = new TargetTypeExtractor();
 
-    public AtomConverter(AtomDeserializerFactory deserializers, TargetTypeExtractor typeExtractor) {
-        this.deserializers = deserializers;
-        this.typeExtractor = typeExtractor;
+    @Test
+    public void extracts_single_entity() {
+        Class<?> singleEntityClass = targetTypeExtractor.extractTargetEntity(String.class);
+
+        assertThat(singleEntityClass).isEqualTo(String.class);
     }
 
-    @Override
-    public Object fromBody(TypedInput typedInput, Type type) throws ConversionException {
-        try {
-            String contents = new TypedInputReader(typedInput).readContents();
-            return deserializers.find(typeExtractor.extractTargetEntity(type)).deserialize(type, contents);
-        } catch (IOException e) {
-            throw new ConversionException(e.getMessage(), e);
-        }
+    @Test
+    public void extracts_type_of_collection() {
+        ParameterizedTypeImpl type = given_generic_collection_of(String.class);
+
+        Class<?> collectionParameterType = targetTypeExtractor.extractTargetEntity(type);
+
+        assertThat(collectionParameterType).isEqualTo(String.class);
     }
 
-    @Override
-    public TypedOutput toBody(Object o) {
-        throw new UnsupportedOperationException();
+    private ParameterizedTypeImpl given_generic_collection_of(Class<String> parameterClass) {
+
+        ParameterizedTypeImpl type = mock(ParameterizedTypeImpl.class);
+        when(type.getRawType()).thenReturn((Class) Collection.class);
+        when(type.getActualTypeArguments()).thenReturn(new Type[] {parameterClass});
+        return type;
     }
 
 }

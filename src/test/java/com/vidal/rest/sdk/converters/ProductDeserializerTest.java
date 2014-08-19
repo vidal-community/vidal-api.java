@@ -58,7 +58,7 @@ public class ProductDeserializerTest {
         Product product = deserializer.deserializeOne(feed);
 
         assertThat(product)
-                .hasId("42")
+                .hasId(42)
                 .hasName("Batman");
     }
 
