@@ -6,7 +6,7 @@ Compatible with standard Java & Android apps.
 ## How to build
 
 Run `mvn`.
-If you want to include Vidal-infrastructure-dependent tests, run `mvn -Pprivate`.
+If you want to include Vidal-infrastructure-dependent tests, run `mvn clean verify`.
 
 ## Troubleshooting
 

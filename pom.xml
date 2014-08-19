@@ -98,7 +98,7 @@
     </dependencies>
 
     <build>
-        <defaultGoal>clean verify</defaultGoal>
+        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -126,9 +126,6 @@
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.17</version>
-                <configuration>
-                    <excludedGroups>com.vidal.rest.sdk.Private</excludedGroups>
-                </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>
@@ -294,21 +291,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>private</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.17</version>
-                        <configuration>
-                            <groups>com.vidal.rest.sdk.Private</groups>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

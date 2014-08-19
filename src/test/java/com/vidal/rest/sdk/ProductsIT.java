@@ -25,14 +25,12 @@ package com.vidal.rest.sdk;
 
 import com.vidal.rest.sdk.entities.Product;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import java.util.Collection;
 
 import static com.vidal.rest.sdk.entities.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Category(Private.class)
 public class ProductsIT {
 
     @Test
