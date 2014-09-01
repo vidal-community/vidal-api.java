@@ -29,6 +29,7 @@ import java.util.Collection;
 
 public interface AtomDeserializer<T> {
 
-    T deserializeOne(String contents) throws ConversionException;
-    Collection<T> deserializeAll(String contents) throws ConversionException;
+	T deserializeOne(String contents) throws ConversionException;
+
+	Collection<T> deserializeAll(String contents) throws ConversionException;
 }

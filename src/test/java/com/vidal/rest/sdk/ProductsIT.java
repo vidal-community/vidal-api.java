@@ -23,49 +23,27 @@
  */
 package com.vidal.rest.sdk;
 
-import com.vidal.rest.sdk.entities.Product;
-import org.junit.Test;
-
-import java.util.Collection;
-
 import static com.vidal.rest.sdk.entities.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collection;
+import org.junit.Test;
+import com.vidal.rest.sdk.entities.Product;
+
 public class ProductsIT {
 
-    @Test
-    public void fetches_product_by_id() {
-        Product product = VidalApi.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api")
-                .fetching(Products.class)
-                .findOne(4011);
+	@Test
+	public void fetches_product_by_id() {
+		Product product = VidalApi.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api").fetching(Products.class).findOne(4011);
 
+		assertThat(product).hasId(4011).hasName("CLAMOXYL 125 mg/5 ml pdre p susp buv");
+	}
 
-        assertThat(product)
-                .hasId(4011)
-                .hasName("CLAMOXYL 125 mg/5 ml pdre p susp buv");
-    }
+	@Test
+	public void searches_product_by_name_without_paging() {
+		Collection<Product> products = VidalApi.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api").fetching(Products.class).findByName("clam");
 
-    @Test
-    public void searches_product_by_name_without_paging() {
-        Collection<Product> products = VidalApi.at("http://dev-software.vidal.net/excalibur-rest-snapshot/rest/api")
-                .fetching(Products.class)
-                .findByName("clam");
-
-        assertThat(products)
-                .hasSize(11)
-                .extracting("id").containsOnly(
-                "vidal://product/4011",
-                "vidal://product/4002",
-                "vidal://product/4005",
-                "vidal://product/4015",
-                "vidal://product/4007",
-                "vidal://product/4013",
-                "vidal://product/4009",
-                "vidal://product/4014",
-                "vidal://product/4004",
-                "vidal://product/4006",
-                "vidal://product/4008"
-        );
-    }
+		assertThat(products).hasSize(11).extracting("id").containsOnly("vidal://product/4011", "vidal://product/4002", "vidal://product/4005", "vidal://product/4015", "vidal://product/4007", "vidal://product/4013", "vidal://product/4009", "vidal://product/4014", "vidal://product/4004", "vidal://product/4006", "vidal://product/4008");
+	}
 
 }

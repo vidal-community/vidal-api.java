@@ -23,42 +23,44 @@
  */
 package com.vidal.rest.sdk.converters;
 
+import retrofit.converter.ConversionException;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Type;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import retrofit.converter.ConversionException;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
-
-import java.lang.reflect.Type;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StandardAtomDeserializerTest {
 
-    @Mock
-    StandardAtomDeserializer<?> deserializer;
+	@Mock
+	StandardAtomDeserializer<?> deserializer;
 
-    @Before
-    public void prepare() throws ConversionException {
-        when(deserializer.deserialize(any(Type.class), anyString())).thenCallRealMethod();
-    }
+	@Before
+	public void prepare() throws ConversionException {
+		when(deserializer.deserialize(any(Type.class), anyString())).thenCallRealMethod();
+	}
 
-    @Test
-    public void deserializes_collections() throws ConversionException {
-        deserializer.deserialize(mock(ParameterizedTypeImpl.class), "payload");
+	@Test
+	public void deserializes_collections() throws ConversionException {
+		deserializer.deserialize(mock(ParameterizedTypeImpl.class), "payload");
 
-        verify(deserializer).deserializeAll("payload");
-    }
+		verify(deserializer).deserializeAll("payload");
+	}
 
-    @Test
-    public void deserializes_single_entity() throws ConversionException {
-        deserializer.deserialize(Object.class, "payload");
+	@Test
+	public void deserializes_single_entity() throws ConversionException {
+		deserializer.deserialize(Object.class, "payload");
 
-        verify(deserializer).deserializeOne("payload");
-    }
+		verify(deserializer).deserializeOne("payload");
+	}
 }

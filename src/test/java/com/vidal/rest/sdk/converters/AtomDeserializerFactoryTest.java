@@ -23,35 +23,35 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import com.vidal.rest.sdk.entities.Product;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.vidal.rest.sdk.entities.Product;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AtomDeserializerFactoryTest {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
-    @InjectMocks
-    AtomDeserializerFactory factory;
+	@InjectMocks
+	AtomDeserializerFactory factory;
 
-    @Test
-    public void returns_product_converter() {
-        assertThat(factory.find(Product.class)).isInstanceOf(ProductDeserializer.class);
-    }
+	@Test
+	public void returns_product_converter() {
+		assertThat(factory.find(Product.class)).isInstanceOf(ProductDeserializer.class);
+	}
 
-    @Test
-    public void fails_on_unsupported_type() {
-        exception.expect(IllegalArgumentException.class);
-        exception.expectMessage("java.lang.Object not supported");
+	@Test
+	public void fails_on_unsupported_type() {
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("java.lang.Object not supported");
 
-        factory.find(Object.class);
-    }
+		factory.find(Object.class);
+	}
 }

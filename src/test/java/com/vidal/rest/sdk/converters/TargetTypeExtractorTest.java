@@ -23,42 +23,42 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import org.junit.Test;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
-
-import java.lang.reflect.Type;
-import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Type;
+import java.util.Collection;
+import org.junit.Test;
+
 public class TargetTypeExtractorTest {
 
-    private TargetTypeExtractor targetTypeExtractor = new TargetTypeExtractor();
+	private TargetTypeExtractor targetTypeExtractor = new TargetTypeExtractor();
 
-    @Test
-    public void extracts_single_entity() {
-        Class<?> singleEntityClass = targetTypeExtractor.extractTargetEntity(String.class);
+	@Test
+	public void extracts_single_entity() {
+		Class<?> singleEntityClass = targetTypeExtractor.extractTargetEntity(String.class);
 
-        assertThat(singleEntityClass).isEqualTo(String.class);
-    }
+		assertThat(singleEntityClass).isEqualTo(String.class);
+	}
 
-    @Test
-    public void extracts_type_of_collection() {
-        ParameterizedTypeImpl type = given_generic_collection_of(String.class);
+	@Test
+	public void extracts_type_of_collection() {
+		ParameterizedTypeImpl type = given_generic_collection_of(String.class);
 
-        Class<?> collectionParameterType = targetTypeExtractor.extractTargetEntity(type);
+		Class<?> collectionParameterType = targetTypeExtractor.extractTargetEntity(type);
 
-        assertThat(collectionParameterType).isEqualTo(String.class);
-    }
+		assertThat(collectionParameterType).isEqualTo(String.class);
+	}
 
-    private ParameterizedTypeImpl given_generic_collection_of(Class<String> parameterClass) {
+	private ParameterizedTypeImpl given_generic_collection_of(Class<String> parameterClass) {
 
-        ParameterizedTypeImpl type = mock(ParameterizedTypeImpl.class);
-        when(type.getRawType()).thenReturn((Class) Collection.class);
-        when(type.getActualTypeArguments()).thenReturn(new Type[] {parameterClass});
-        return type;
-    }
+		ParameterizedTypeImpl type = mock(ParameterizedTypeImpl.class);
+		when(type.getRawType()).thenReturn((Class) Collection.class);
+		when(type.getActualTypeArguments()).thenReturn(new Type[]{parameterClass});
+		return type;
+	}
 
 }

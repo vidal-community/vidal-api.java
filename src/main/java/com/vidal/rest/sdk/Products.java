@@ -23,18 +23,18 @@
  */
 package com.vidal.rest.sdk;
 
-import com.vidal.rest.sdk.entities.Product;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
 import java.util.Collection;
+import com.vidal.rest.sdk.entities.Product;
 
 public interface Products {
 
-    @GET("/product/{id}")
-    Product findOne(@Path("id") int id);
+	@GET("/product/{id}")
+	Product findOne(@Path("id") int id);
 
-    @GET("/products")
-    Collection<Product> findByName(@Query("q") String name);
+	@GET("/products")
+	Collection<Product> findByName(@Query("q") String name);
 }

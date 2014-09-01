@@ -23,20 +23,8 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import retrofit.converter.ConversionException;
 import retrofit.mime.TypedInput;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.isA;
@@ -45,55 +33,67 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 @RunWith(MockitoJUnitRunner.class)
 public class AtomConverterTest {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
-    @Mock
-    AtomDeserializerFactory deserializers;
+	@Mock
+	AtomDeserializerFactory deserializers;
 
-    @Mock
-    TargetTypeExtractor extractor;
+	@Mock
+	TargetTypeExtractor extractor;
 
-    @Mock
-    StandardAtomDeserializer deserializer;
+	@Mock
+	StandardAtomDeserializer deserializer;
 
-    @InjectMocks
-    AtomConverter converter;
+	@InjectMocks
+	AtomConverter converter;
 
-    @Test
-    public void delegates_to_Atom_deserializer() throws IOException, ConversionException {
-        when(extractor.extractTargetEntity(any(Type.class))).thenReturn((Class)String.class);
-        when(deserializer.deserialize(any(Type.class), eq("Lococo"))).thenReturn("LC Waikiki");
-        when(deserializers.find(String.class)).thenReturn(deserializer);
+	@Test
+	public void delegates_to_Atom_deserializer() throws IOException, ConversionException {
+		when(extractor.extractTargetEntity(any(Type.class))).thenReturn((Class) String.class);
+		when(deserializer.deserialize(any(Type.class), eq("Lococo"))).thenReturn("LC Waikiki");
+		when(deserializers.find(String.class)).thenReturn(deserializer);
 
-        Object result = converter.fromBody(typedInput("Lococo"), String.class);
-        assertThat(result).isEqualTo("LC Waikiki");
-    }
+		Object result = converter.fromBody(typedInput("Lococo"), String.class);
+		assertThat(result).isEqualTo("LC Waikiki");
+	}
 
-    @Test
-    public void encapsulates_reader_errors() throws IOException, ConversionException {
-        exception.expect(ConversionException.class);
-        exception.expectCause(isA(IOException.class));
+	@Test
+	public void encapsulates_reader_errors() throws IOException, ConversionException {
+		exception.expect(ConversionException.class);
+		exception.expectCause(isA(IOException.class));
 
-        TypedInput typedInput = typedInput("");
-        when(typedInput.in()).thenThrow(IOException.class);
+		TypedInput typedInput = typedInput("");
+		when(typedInput.in()).thenThrow(IOException.class);
 
-        converter.fromBody(typedInput, Object.class);
-    }
+		converter.fromBody(typedInput, Object.class);
+	}
 
-    @Test
-    public void does_not_serialize_yet() {
-        exception.expect(UnsupportedOperationException.class);
+	@Test
+	public void does_not_serialize_yet() {
+		exception.expect(UnsupportedOperationException.class);
 
-        converter.toBody(null);
-    }
+		converter.toBody(null);
+	}
 
-    private TypedInput typedInput(String text) throws IOException {
-        TypedInput typedInput = mock(TypedInput.class);
-        when(typedInput.in()).thenReturn(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)));
-        return typedInput;
-    }
+	private TypedInput typedInput(String text) throws IOException {
+		TypedInput typedInput = mock(TypedInput.class);
+		when(typedInput.in()).thenReturn(new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8)));
+		return typedInput;
+	}
 }

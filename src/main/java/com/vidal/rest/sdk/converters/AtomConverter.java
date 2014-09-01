@@ -27,36 +27,33 @@ import retrofit.converter.ConversionException;
 import retrofit.converter.Converter;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import static java.lang.String.format;
-
 public class AtomConverter implements Converter {
 
-    private final AtomDeserializerFactory deserializers;
-    private final TargetTypeExtractor typeExtractor;
+	private final AtomDeserializerFactory deserializers;
+	private final TargetTypeExtractor typeExtractor;
 
-    public AtomConverter(AtomDeserializerFactory deserializers, TargetTypeExtractor typeExtractor) {
-        this.deserializers = deserializers;
-        this.typeExtractor = typeExtractor;
-    }
+	public AtomConverter(AtomDeserializerFactory deserializers, TargetTypeExtractor typeExtractor) {
+		this.deserializers = deserializers;
+		this.typeExtractor = typeExtractor;
+	}
 
-    @Override
-    public Object fromBody(TypedInput typedInput, Type type) throws ConversionException {
-        try {
-            String contents = new TypedInputReader(typedInput).readContents();
-            return deserializers.find(typeExtractor.extractTargetEntity(type)).deserialize(type, contents);
-        } catch (IOException e) {
-            throw new ConversionException(e.getMessage(), e);
-        }
-    }
+	@Override
+	public Object fromBody(TypedInput typedInput, Type type) throws ConversionException {
+		try {
+			String contents = new TypedInputReader(typedInput).readContents();
+			return deserializers.find(typeExtractor.extractTargetEntity(type)).deserialize(type, contents);
+		} catch (IOException e) {
+			throw new ConversionException(e.getMessage(), e);
+		}
+	}
 
-    @Override
-    public TypedOutput toBody(Object o) {
-        throw new UnsupportedOperationException();
-    }
+	@Override
+	public TypedOutput toBody(Object o) {
+		throw new UnsupportedOperationException();
+	}
 
 }

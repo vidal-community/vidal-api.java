@@ -25,20 +25,20 @@ package com.vidal.rest.sdk.converters;
 
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
-import java.lang.reflect.Type;
-
 import static java.lang.String.format;
+
+import java.lang.reflect.Type;
 
 public class TargetTypeExtractor {
 
-    public Class<?> extractTargetEntity(Type type) {
-        if (type instanceof Class<?>) {
-            return (Class<?>) type;
-        }
-        if (type instanceof ParameterizedTypeImpl) {
-            return (Class<?>) ((ParameterizedTypeImpl) type).getActualTypeArguments()[0];
-        }
-        throw new IllegalArgumentException(format("Unexpected type: %s", type));
+	public Class<?> extractTargetEntity(Type type) {
+		if (type instanceof Class<?>) {
+			return (Class<?>) type;
+		}
+		if (type instanceof ParameterizedTypeImpl) {
+			return (Class<?>) ((ParameterizedTypeImpl) type).getActualTypeArguments()[0];
+		}
+		throw new IllegalArgumentException(format("Unexpected type: %s", type));
 
-    }
+	}
 }

@@ -23,16 +23,16 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import com.vidal.rest.sdk.entities.Product;
-
 import static java.lang.String.format;
+
+import com.vidal.rest.sdk.entities.Product;
 
 public class AtomDeserializerFactory {
 
-    public <T> StandardAtomDeserializer<T> find(Class<T> type) {
-        if (Product.class.isAssignableFrom(type)) {
-            return (StandardAtomDeserializer<T>) new ProductDeserializer();
-        }
-        throw new IllegalArgumentException(format("%s not supported", type.getName()));
-    }
+	public <T> StandardAtomDeserializer<T> find(Class<T> type) {
+		if (Product.class.isAssignableFrom(type)) {
+			return (StandardAtomDeserializer<T>) new ProductDeserializer();
+		}
+		throw new IllegalArgumentException(format("%s not supported", type.getName()));
+	}
 }

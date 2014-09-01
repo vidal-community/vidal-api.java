@@ -27,14 +27,14 @@ import retrofit.RestAdapter;
 
 public class ResourceFactory implements Resources {
 
-    private final RestAdapter restAdapter;
+	private final RestAdapter restAdapter;
 
-    public ResourceFactory(RestAdapter restAdapter) {
-        this.restAdapter = restAdapter;
-    }
+	public ResourceFactory(RestAdapter restAdapter) {
+		this.restAdapter = restAdapter;
+	}
 
-    @Override
-    public <T> T fetching(Class<T> entity) {
-        return restAdapter.create(entity);
-    }
+	@Override
+	public <T> T fetching(Class<T> entity) {
+		return restAdapter.create(entity);
+	}
 }

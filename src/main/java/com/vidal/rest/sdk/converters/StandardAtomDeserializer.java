@@ -30,10 +30,10 @@ import java.lang.reflect.Type;
 
 public abstract class StandardAtomDeserializer<T> implements AtomDeserializer<T> {
 
-    public Object deserialize(Type type, String contents) throws ConversionException {
-        if (type instanceof ParameterizedTypeImpl) {
-            return deserializeAll(contents);
-        }
-        return deserializeOne(contents);
-    }
+	public Object deserialize(Type type, String contents) throws ConversionException {
+		if (type instanceof ParameterizedTypeImpl) {
+			return deserializeAll(contents);
+		}
+		return deserializeOne(contents);
+	}
 }

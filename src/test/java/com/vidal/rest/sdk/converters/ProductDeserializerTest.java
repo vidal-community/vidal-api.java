@@ -23,58 +23,57 @@
  */
 package com.vidal.rest.sdk.converters;
 
-import com.vidal.rest.sdk.entities.Product;
 import nu.xom.ParsingException;
+import retrofit.converter.ConversionException;
+
+import static com.vidal.rest.sdk.entities.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.isA;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
-import retrofit.converter.ConversionException;
-
-import static com.vidal.rest.sdk.entities.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.isA;
+import com.vidal.rest.sdk.entities.Product;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductDeserializerTest {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
-    @InjectMocks
-    ProductDeserializer deserializer;
+	@InjectMocks
+	ProductDeserializer deserializer;
 
-    @Test
-    public void deserializes_product_from_feed() throws ConversionException {
-        String feed = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:vidal=\"http://api.vidal.net/-/spec/vidal-api/1.0/\">" +
-                "   <entry>" +
-                "       <vidal:id>42</vidal:id>" +
-                "       <title>Batman</title>" +
-                "   </entry>" +
-                "</feed>";
+	@Test
+	public void deserializes_product_from_feed() throws ConversionException {
+		String feed = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+				"<feed xmlns=\"http://www.w3.org/2005/Atom\" xmlns:vidal=\"http://api.vidal.net/-/spec/vidal-api/1.0/\">" +
+				"   <entry>" +
+				"       <vidal:id>42</vidal:id>" +
+				"       <title>Batman</title>" +
+				"   </entry>" +
+				"</feed>";
 
-        Product product = deserializer.deserializeOne(feed);
+		Product product = deserializer.deserializeOne(feed);
 
-        assertThat(product)
-                .hasId(42)
-                .hasName("Batman");
-    }
+		assertThat(product).hasId(42).hasName("Batman");
+	}
 
-    @Test
-    public void feed_errors_are_wrapped_as_conversion_exceptions() throws ConversionException {
-        exception.expect(ConversionException.class);
-        exception.expectCause(isA(ParsingException.class));
+	@Test
+	public void feed_errors_are_wrapped_as_conversion_exceptions() throws ConversionException {
+		exception.expect(ConversionException.class);
+		exception.expectCause(isA(ParsingException.class));
 
-        deserializer.deserializeOne("");
-    }
+		deserializer.deserializeOne("");
+	}
 
-    @Test
-    public void does_not_deserialize_collection_of_products_yet() throws ConversionException {
-        exception.expect(UnsupportedOperationException.class);
+	@Test
+	public void does_not_deserialize_collection_of_products_yet() throws ConversionException {
+		exception.expect(UnsupportedOperationException.class);
 
-        deserializer.deserializeAll("");
-    }
+		deserializer.deserializeAll("");
+	}
 
 }
