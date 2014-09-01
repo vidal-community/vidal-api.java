@@ -291,4 +291,13 @@
             </plugin>
         </plugins>
     </build>
+
+   <distributionManagement>
+        <snapshotRepository>
+            <id>vidal-snapshots</id>
+            <uniqueVersion>true</uniqueVersion>
+            <url>http://nexus.vidal.net/content/repositories/vidal-snapshots/</url>
+        </snapshotRepository>
+   </distributionManagement>
+
 </project>
