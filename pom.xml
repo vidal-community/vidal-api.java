@@ -45,16 +45,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>xom</groupId>
-			<artifactId>xom</artifactId>
-			<version>1.2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-			<version>1.1.6</version>
-		</dependency>
+        <dependency>
+            <groupId>org.simpleframework</groupId>
+            <artifactId>simple-xml</artifactId>
+            <version>2.7.1</version>
+        </dependency>
 		<dependency>
 			<groupId>com.squareup.retrofit</groupId>
 			<artifactId>retrofit</artifactId>
@@ -274,8 +269,8 @@
 									<shadedPattern>${base.internal.package}.squareup.dagger</shadedPattern>
 								</relocation>
 								<relocation>
-									<pattern>nu.xom</pattern>
-									<shadedPattern>${base.internal.package}.nu.xom</shadedPattern>
+									<pattern>org.simpleframework</pattern>
+									<shadedPattern>${base.internal.package}.org.simpleframework</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>com</pattern>

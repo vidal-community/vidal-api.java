@@ -24,7 +24,6 @@
 package com.vidal.rest.sdk.converters;
 
 import com.vidal.rest.sdk.entities.Product;
-import nu.xom.ParsingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -65,7 +64,7 @@ public class ProductDeserializerTest {
     @Test
     public void feed_errors_are_wrapped_as_conversion_exceptions() throws ConversionException {
         exception.expect(ConversionException.class);
-        exception.expectCause(isA(ParsingException.class));
+        exception.expectCause(isA(Exception.class));
 
         deserializer.deserializeOne("");
     }

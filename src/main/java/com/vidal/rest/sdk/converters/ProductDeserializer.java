@@ -24,33 +24,21 @@
 package com.vidal.rest.sdk.converters;
 
 import com.vidal.rest.sdk.entities.Product;
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.ParsingException;
-import org.jaxen.JaxenException;
-import org.jaxen.NamespaceContext;
-import org.jaxen.SimpleNamespaceContext;
-import org.jaxen.xom.XOMXPath;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import retrofit.converter.ConversionException;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ProductDeserializer implements AtomDeserializer<Product> {
+
+    private Serializer deserializer = new Persister();
 
     @Override
     public Product deserializeOne(String contents) throws ConversionException {
         try {
-            Document document = document(contents);
-            return new Product(
-                execute(document, "//atom:entry/vidal:id"),
-                execute(document, "//atom:entry/atom:title")
-            );
-
-        } catch (ParsingException| JaxenException | IOException e) {
+            return deserializer.read(Product.class, contents);
+        } catch (Exception e) {
             throw new ConversionException(e.getMessage(), e);
         }
     }
@@ -58,22 +46,5 @@ public class ProductDeserializer implements AtomDeserializer<Product> {
     @Override
     public Collection<Product> deserializeAll(String contents) throws ConversionException {
         throw new UnsupportedOperationException();
-    }
-
-    private String execute(Document document, String xpath) throws JaxenException {
-        XOMXPath xpathEngine = new XOMXPath(xpath);
-        xpathEngine.setNamespaceContext(namespace());
-        return xpathEngine.stringValueOf(xpathEngine.selectSingleNode(document));
-    }
-
-    private Document document(String contents) throws ParsingException, IOException {
-        return new Builder().build(new StringReader(contents));
-    }
-
-    private NamespaceContext namespace() {
-        Map<String, String> map = new HashMap<>();
-        map.put("vidal", "http://api.vidal.net/-/spec/vidal-api/1.0/");
-        map.put("atom", "http://www.w3.org/2005/Atom");
-        return new SimpleNamespaceContext(map);
     }
 }

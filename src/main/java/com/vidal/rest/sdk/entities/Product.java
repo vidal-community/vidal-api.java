@@ -23,13 +23,22 @@
  */
 package com.vidal.rest.sdk.entities;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Path;
+import org.simpleframework.xml.Root;
+
 import java.util.Objects;
 
 import static java.util.Objects.hash;
 
+@Root
 public class Product {
 
+    @Element
+    @Path("//atom:entry/vidal:id")
     private String id;
+    @Element
+    @Path("//atom:entry/vidal:title")
     private String name;
 
     public Product(String id, String name) {
